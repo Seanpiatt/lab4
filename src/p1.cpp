@@ -9,60 +9,47 @@ int int_SIZE = 16000000;
 int main() { 
     Timer timer;
     std::mt19937_64 rng(0);
-
-    std::list<uint64_t> list;
+    
+    std::vector<uint64_t> vec1;
+    vec1.resize(SIZE);
     rng.seed(0);
     timer.restart();
-    for (size_t i = 0; i < SIZE; ++i) {
-        list.push_back(rng());
+    for (int row = 0; row < 4000; ++row) {
+        for(int col = 0; col < 4000; ++col){
+            vec1[row*4000 + col] = rng();
+        }
     }
-    std::cout << "list insert:              " << timer.click<Timer::Micros>() << " us\n";
+    std::cout << "Vec1 insert:              " << timer.click<Timer::Micros>() << " us\n";
     
-    uint64_t listSum = 0;
+    uint64_t arraySum = 0;
     timer.restart();
-    for (uint64_t x : list) {
-        listSum += x;
+    for (int row = 0; row < 4000; ++row) {
+        for(int col = 0; col < 4000; ++col){
+            arraySum+=vec1[row*4000 + col];
+        }
     }
-    std::cout << "list sum:   " << listSum << ", " << timer.click<Timer::Micros>() << " us\n";
+    std::cout << "Vec1 sum:   " << arraySum << ", " << timer.click<Timer::Micros>() << " us\n";
 
-    std::list<uint64_t> list2;
+    std::vector<uint64_t> vec2;
+    vec2.resize(SIZE);
     rng.seed(0);
     timer.restart();
-    int y = 0;
-    int r = 0;
-    while (y + 4000*r < int_SIZE) {
-        list2.push_back(rng());
-        if(y + 4000*(r+1) < int_SIZE){
-            r++;
-        }
-        else if((y+1) == 4000) {
-            break;
-        }
-        else{
-            r=0;
-            y++;
+    for (int col = 0; col < 4000; ++col) {
+        for(int row = 0; row < 4000; ++row){
+            vec2[row*4000 + col] = rng();
         }
     }
-    std::cout << "Col list:              " << timer.click<Timer::Micros>() << " us\n";
+    std::cout << "Vec2 (col) insert:              " << timer.click<Timer::Micros>() << " us\n";
     
-    uint64_t listSum2 = 0;
+    uint64_t arraySum2 = 0;
     timer.restart();
-    y = 0;
-    r = 0;
-    while (y + 4000*r < int_SIZE) {
-        listSum2 += (y + 4000*r);
-        if(y + 4000*(r+1) < int_SIZE){
-            r++;
-        }
-        else if((y+1) == 4000) {
-            break;
-        }
-        else{
-            r=0;
-            y++;
+    for (int col = 0; col < 4000; ++col) {
+        for(int row = 0; row < 4000; ++row){
+            arraySum2+=vec2[row*4000 + col];
         }
     }
-    std::cout << "list2 sum:   " << listSum2 << ", " << timer.click<Timer::Micros>() << " us\n";
+
+    std::cout << "Vec2 (col) sum:   " << arraySum2 << ", " << timer.click<Timer::Micros>() << " us\n";
 
 
 }

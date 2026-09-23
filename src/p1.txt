@@ -1,0 +1,15 @@
+❯ ./release/p1
+Vec1 insert:              23526 us
+Vec1 sum:   347898375840389362, 5169 us
+Vec2 (col) insert:              47745 us
+Vec2 (col) sum:   347898375840389362, 4529 us
+
+
+Above was one of my outputs and it seems inserting random numbers in rows was almost
+2 times faster that inserting them through columns. I think the major reason is that
+there are alot of Translation Lookaside Buffer misses with the column approach. Since you are
+jumping almost 4000 elements each time you iterate vs staying on the page (for the page length)
+in the row approach. 
+
+The summing was similar because the pages are already in memory, so when summing each one, 
+it ends up being similar (same) times.
