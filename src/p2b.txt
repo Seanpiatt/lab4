@@ -1,0 +1,5 @@
+❯ ./release/p2b
+Ka convolution:              7736 us
+Kb convolution:              926222 us
+
+It seems that normal arithmatic operation
